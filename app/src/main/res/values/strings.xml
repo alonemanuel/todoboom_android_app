@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">ToDoBoom</string>
     <string name="create_label">Create</string>
+    <string name="todo_creation_toast">New ToDo created. Boom!</string>
 </resources>
