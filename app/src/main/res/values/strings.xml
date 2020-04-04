@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">ToDoBoom</string>
+    <string name="create_label">Create</string>
+</resources>
