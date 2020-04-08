@@ -10,6 +10,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
+//    var myCoordinatorLayout: CoordinatorLayout = findViewById(R.id.my_coordinator_layout)
+
     lateinit var diceImage: ImageView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,6 +19,8 @@ class MainActivity : AppCompatActivity() {
         val createButton: Button = findViewById(R.id.create_button)
         diceImage = findViewById(R.id.dice_image)
         createButton.setOnClickListener { addToDo() }
+
+
     }
 
     private fun addToDo() {
