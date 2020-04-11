@@ -2,4 +2,6 @@
     <string name="app_name">ToDoBoom</string>
     <string name="create_label">Create</string>
     <string name="todo_creation_toast">New ToDo created. Boom!</string>
+    <string name="image_of_a_dice">Image of a dice</string>
+    <string name="name">alon emanuel</string>
 </resources>
