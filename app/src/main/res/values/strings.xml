@@ -4,4 +4,5 @@
     <string name="todo_creation_toast">New ToDo created. Boom!</string>
     <string name="image_of_a_dice">Image of a dice</string>
     <string name="name">alon emanuel</string>
+    <string name="yellow_star">Yellow Star</string>
 </resources>
