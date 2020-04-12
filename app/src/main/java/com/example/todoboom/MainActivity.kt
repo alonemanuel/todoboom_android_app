@@ -1,68 +1,75 @@
 package com.example.todoboom
 
 import android.content.Context
-import android.opengl.Visibility
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.*
+import android.widget.Button
+import android.widget.ImageView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import com.example.todoboom.databinding.ActivityMainBinding
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
 //    var myCoordinatorLayout: CoordinatorLayout = findViewById(R.id.my_coordinator_layout)
 
+    private lateinit var binding: ActivityMainBinding
     lateinit var diceImage: ImageView
+    private val myName: MyName = MyName("Aleks Haecky")
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        val createButton: Button = findViewById(R.id.create_button)
-        diceImage = findViewById(R.id.dice_image)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        val createButton: Button = binding.createButton
+        binding.myName = myName
+        diceImage = binding.diceImage
         createButton.setOnClickListener { addToDo() }
 
 
-        findViewById<Button>(R.id.done_button).setOnClickListener {
+        binding.doneButton.setOnClickListener {
             addNickname(it)
         }
-        findViewById<TextView> (R.id.nickname_text).setOnClickListener{
+        binding.nicknameText.setOnClickListener {
             updateNickname(it)
         }
 
     }
 
     private fun updateNickname(view: View) {
-        val editText = findViewById<EditText>(R.id.nickname_edit)
-        val doneButton = findViewById<TextView>(R.id.done_button)
 
 
-        editText.visibility=View.VISIBLE
-        doneButton.visibility = View.VISIBLE
-        view.visibility = View.GONE
+        binding.nicknameEdit.visibility = View.VISIBLE
+        binding.doneButton.visibility = View.VISIBLE
+        binding.nicknameText.visibility = View.GONE
 
-        editText.requestFocus()
+        binding.nicknameEdit.requestFocus()
 
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.showSoftInput(editText, 0)
+        imm.showSoftInput(binding.nicknameEdit, 0)
 
     }
 
     private fun addNickname(view: View) {
-        val editText = findViewById<EditText>(R.id.nickname_edit)
-        val nicknameTextView = findViewById<TextView>(R.id.nickname_text)
 
-        nicknameTextView.text = editText.text
-        editText.visibility = View.GONE
-        view.visibility = View.GONE
+        binding.apply {
+            myName?.nickname = nicknameEdit.text.toString()
+            invalidateAll()
+//            nicknameText.text = nicknameEdit.text.toString()
+            nicknameEdit.visibility = View.GONE
+            doneButton.visibility = View.GONE
+            nicknameText.visibility = View.VISIBLE
+        }
 
-        nicknameTextView.visibility = View.VISIBLE
-        val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val inputMethodManager =
+            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
 
     }
 
     private fun addToDo() {
-//        Toast.makeText(this, getString(R.string.todo_creation_toast), Toast.LENGTH_SHORT).show()
         val randomInt = (1..6).random()
         val drawableResource = when (randomInt) {
             1 -> R.drawable.dice_1
