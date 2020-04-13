@@ -18,6 +18,12 @@
         android:paddingHorizontal="@dimen/layout_padding"
         tools:context=".MainActivity">
 
+        <fragment
+            android:id="@+id/titleFragment"
+            android:name="com.example.todoboom.TitleFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
         <TextView
             android:id="@+id/name_text"
             style="@style/NameStyle"

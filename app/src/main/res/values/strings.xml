@@ -24,6 +24,9 @@
     <string name="box_four">Box Four</string>
     <string name="box_five">Box Five</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>
 
 
