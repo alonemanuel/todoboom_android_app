@@ -3,14 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/titleFragment">
+    app:startDestination="@id/adderFragment">
     <fragment
-        android:id="@+id/titleFragment"
-        android:name="com.example.todoboom.TitleFragment"
-        android:label="TitleFragment" />
+        android:id="@+id/adderFragment"
+        android:name="com.example.todoboom.screens.AdderFragment"
+        android:label="AdderFragment" >
+        <action
+            android:id="@+id/action_adderFragment_to_statsFragment"
+            app:destination="@id/statsFragment" />
+    </fragment>
     <fragment
-        android:id="@+id/gameFragment"
-        android:name="com.example.android.todoboom.GameFragment"
-        android:label="GameFragment"
-        tools:layout="@layout/fragment_game" />
+        android:id="@+id/statsFragment"
+        android:name="com.example.todoboom.screens.StatsFragment"
+        android:label="StatsFragment" />
 </navigation>
