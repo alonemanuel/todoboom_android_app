@@ -91,7 +91,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/create_button" />
+            app:layout_constraintTop_toBottomOf="@+id/todos_scroll" />
 
 
         <Button
@@ -115,11 +115,33 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:fontFamily="@font/roboto"
+            android:onClick="@{()->adderViewModel.onCreateTodo()}"
             android:text="@string/create_label"
-            app:layout_constraintBottom_toTopOf="@+id/see_stats_button"
+            app:layout_constraintBottom_toTopOf="@+id/todos_scroll"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/todo_input" />
+
+        <ScrollView
+            android:id="@+id/todos_scroll"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/see_stats_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/create_button"
+            app:layout_constraintVertical_bias="0.0">
+
+            <!-- In the TextView, we can access the nightsString LiveData,
+               which keeps it displayed and updated in the TextView
+               whenever it changes. -->
+            <TextView
+                android:id="@+id/todos_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{adderViewModel.todosString}" />
+
+        </ScrollView>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
