@@ -6,7 +6,7 @@
     app:startDestination="@id/adderFragment">
     <fragment
         android:id="@+id/adderFragment"
-        android:name="com.example.todoboom.screens.AdderFragment"
+        android:name="com.example.todoboom.todoadder.AdderFragment"
         android:label="AdderFragment" >
         <action
             android:id="@+id/action_adderFragment_to_statsFragment"

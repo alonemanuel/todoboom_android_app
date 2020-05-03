@@ -1,4 +1,4 @@
-package com.example.todoboom.screens
+package com.example.todoboom.todoadder
 
 import android.content.Context
 import android.os.Bundle
@@ -8,9 +8,11 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.todoboom.MyName
 import com.example.todoboom.R
+import com.example.todoboom.database.TodoDatabase
 import com.example.todoboom.databinding.FragmentAdderBinding
 
 /**
@@ -30,7 +32,17 @@ class AdderFragment : Fragment() {
         binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_adder, container, false
         )
+
+
+        val application = requireNotNull(this.activity).application
+        val dataSource = TodoDatabase.getInstance(application).todoDatabaseDao
+        val viewModelFactory = AdderViewModelFactory(dataSource, application)
+        val adderViewModel =
+            ViewModelProvider(this, viewModelFactory).get(AdderViewModel::class.java)
+
         binding.myName = myName
+        binding.adderViewModel = adderViewModel
+        binding.setLifecycleOwner(this)
 
         setOnClickListeners()
 

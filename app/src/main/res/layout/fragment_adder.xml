@@ -8,6 +8,11 @@
         <variable
             name="myName"
             type="com.example.todoboom.MyName" />
+
+        <variable
+            name="adderViewModel"
+            type="com.example.todoboom.todoadder.AdderViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
