@@ -21,7 +21,7 @@ import java.text.SimpleDateFormat
  */
 @SuppressLint("SimpleDateFormat")
 fun convertLongToDateString(systemTime: Long): String {
-    return SimpleDateFormat("EEEE MMM-dd-yyyy' Time: 'HH:mm")
+    return SimpleDateFormat("EEEE dd-MMM-yyyy' Time: 'HH:mm")
         .format(systemTime).toString()
 }
 
@@ -33,7 +33,7 @@ fun formatTodos(todos: List<TodoItem>, resources: Resources): Spanned {
         todos.forEach {
             append("<br")
             append(resources.getString(R.string.start_time))
-            append("\t${convertLongToDateString(it.startTimeMilli)}<br>")
+            append("\t${convertLongToDateString(it.startTimeMilli)}<br><br>")
             if (it.endTimeMilli != it.startTimeMilli) {
                 append(resources.getString(R.string.end_time))
                 append("\t${convertLongToDateString(it.endTimeMilli)}<br>")

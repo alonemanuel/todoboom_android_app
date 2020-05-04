@@ -118,8 +118,22 @@
             android:onClick="@{()->adderViewModel.onCreateTodo()}"
             android:text="@string/create_label"
             app:layout_constraintBottom_toTopOf="@+id/todos_scroll"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/clear_button"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/todo_input" />
+
+        <Button
+            android:id="@+id/clear_button"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="@font/roboto"
+            android:onClick="@{()->adderViewModel.onClear()}"
+            android:text="@string/clear"
+            app:layout_constraintBottom_toTopOf="@+id/todos_scroll"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/create_button"
             app:layout_constraintTop_toBottomOf="@+id/todo_input" />
 
         <ScrollView

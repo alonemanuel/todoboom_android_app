@@ -47,9 +47,10 @@
     <string name="sharing_not_available">Sharing Not Available</string>
     <string name="what_is_your_next_todo">What is your next todo?</string>
     <string name="see_stats">See Stats</string>
-    <string name="todos_title">Here are your todos</string>
-    <string name="start_time">Start:</string>
-    <string name="end_time">End:</string>
-    <string name="description">Description:</string>
+    <string name="todos_title"><![CDATA[<h3>Here are your todos</h3>]]></string>
+    <string name="start_time"><![CDATA[<b>Start:</b>]]></string>
+    <string name="end_time"><![CDATA[<b>End:</b>]]></string>
+    <string name="description"><![CDATA[<b>Description</b>]]>:</string>
+    <string name="clear">clear</string>
 
 </resources>

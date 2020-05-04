@@ -16,6 +16,8 @@ class AdderViewModel(val database: TodoDatabaseDao, application: Application) :
     private var uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
     private var newestTodo = MutableLiveData<TodoItem?>()
     private var todos = database.getAllTodos()
+
+    //    val todosString = "yo"
     val todosString = Transformations.map(todos) { todos ->
         formatTodos(todos, application.resources)
     }
@@ -45,6 +47,20 @@ class AdderViewModel(val database: TodoDatabaseDao, application: Application) :
             val newTodo = TodoItem()
             insert(newTodo)
             newestTodo.value = getNewestTodoFromDatabase()
+        }
+    }
+
+    fun onClear() {
+        uiScope.launch {
+            clear()
+            newestTodo.value = null
+
+        }
+    }
+
+    private suspend fun clear() {
+        withContext(Dispatchers.IO) {
+            database.clear()
         }
     }
 
