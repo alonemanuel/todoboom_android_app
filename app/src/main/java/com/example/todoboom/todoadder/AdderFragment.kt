@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.todoboom.MyName
@@ -40,9 +41,19 @@ class AdderFragment : Fragment() {
         val adderViewModel =
             ViewModelProvider(this, viewModelFactory).get(AdderViewModel::class.java)
 
+
         binding.myName = myName
         binding.adderViewModel = adderViewModel
         binding.setLifecycleOwner(this)
+
+        val adapter = TodoItemAdapter()
+        binding.todosList.adapter = adapter
+
+        adderViewModel.todos.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                adapter.data = it
+            }
+        })
 
         setOnClickListeners()
 

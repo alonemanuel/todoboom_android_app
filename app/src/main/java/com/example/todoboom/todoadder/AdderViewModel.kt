@@ -15,9 +15,9 @@ class AdderViewModel(val database: TodoDatabaseDao, application: Application) :
     private var viewModelJob = Job()
     private var uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
     private var newestTodo = MutableLiveData<TodoItem?>()
-    private var todos = database.getAllTodos()
+    val todos = database.getAllTodos()
 
-    //    val todosString = "yo"
+    //    val todossString = "yo"
     val todosString = Transformations.map(todos) { todos ->
         formatTodos(todos, application.resources)
     }
