@@ -116,7 +116,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:fontFamily="@font/roboto"
-            android:onClick="@{()->adderViewModel.onCreateTodo()}"
             android:text="@string/create_label"
             app:layout_constraintBottom_toTopOf="@+id/todos_list"
             app:layout_constraintEnd_toStartOf="@id/clear_button"

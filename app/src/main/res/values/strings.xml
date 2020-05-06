@@ -52,5 +52,6 @@
     <string name="end_time"><![CDATA[<b>End:</b>]]></string>
     <string name="description"><![CDATA[<b>Description</b>]]>:</string>
     <string name="clear">clear</string>
+    <string name="empty_todo_err">You cannot enter an empty todo!</string>
 
 </resources>

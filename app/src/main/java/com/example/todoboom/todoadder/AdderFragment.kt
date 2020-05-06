@@ -16,6 +16,7 @@ import com.example.todoboom.MyName
 import com.example.todoboom.R
 import com.example.todoboom.database.TodoDatabase
 import com.example.todoboom.databinding.FragmentAdderBinding
+import timber.log.Timber
 
 /**
  * A simple [Fragment] subclass.
@@ -23,10 +24,10 @@ import com.example.todoboom.databinding.FragmentAdderBinding
  * create an instance of this fragment.
  */
 class AdderFragment : Fragment() {
-
+    val myName: MyName = MyName("Alon Emanuel")
     private lateinit var binding: FragmentAdderBinding
-    private val myName: MyName = MyName("Alon Emanuel")
-
+    private lateinit var adderViewModel: AdderViewModel
+    private lateinit var adapter: TodoItemAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -39,22 +40,11 @@ class AdderFragment : Fragment() {
         val application = requireNotNull(this.activity).application
         val dataSource = TodoDatabase.getInstance(application).todoDatabaseDao
         val viewModelFactory = AdderViewModelFactory(dataSource, application)
-        val adderViewModel =
+        adderViewModel =
             ViewModelProvider(this, viewModelFactory).get(AdderViewModel::class.java)
 
-
-        binding.myName = myName
-        binding.adderViewModel = adderViewModel
-        binding.setLifecycleOwner(this)
-
-        val adapter = TodoItemAdapter(TodoItemListener { todoId ->
-            Toast.makeText(
-                context,
-                "${todoId}",
-                Toast.LENGTH_LONG
-            ).show()
-        })
-        binding.todosList.adapter = adapter
+        initAdapter()
+        initBinding()
 
         adderViewModel.todos.observe(viewLifecycleOwner, Observer {
             it?.let {
@@ -62,14 +52,33 @@ class AdderFragment : Fragment() {
             }
         })
 
-        setOnClickListeners()
 
+        setOnClickListeners(adderViewModel)
         return binding.root
     }
 
-    private fun setOnClickListeners() {
+    fun initAdapter() {
+        adapter = TodoItemAdapter(TodoItemListener { todoId ->
+            Toast.makeText(
+                context,
+                "${todoId}",
+                Toast.LENGTH_LONG
+            ).show()
+        })
+    }
+
+    fun initBinding() {
+
+        binding.myName = myName
+        binding.adderViewModel = adderViewModel
+        binding.setLifecycleOwner(this)
+        binding.todosList.adapter = adapter
+
+    }
+
+    private fun setOnClickListeners(adderViewModel: AdderViewModel) {
         binding.apply {
-            createButton.setOnClickListener { addToDo() }
+            createButton.setOnClickListener { addToDo(adderViewModel) }
             doneButton.setOnClickListener { addNickname(it) }
             nicknameView.setOnClickListener { updateNickname() }
             seeStatsButton.setOnClickListener { findNavController().navigate(R.id.action_adderFragment_to_statsFragment) }
@@ -100,11 +109,24 @@ class AdderFragment : Fragment() {
             nicknameView.visibility = View.VISIBLE
         }
 
+
         val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(view.windowToken, 0)
 
     }
 
-    private fun addToDo() {
+    private fun addToDo(adderViewModel: AdderViewModel) {
+        Timber.i("On addToDo in fragment")
+        val todoInput = binding.todoInput.text.toString()
+        Timber.i(todoInput)
+        if (todoInput == "") {
+            Timber.i("is null")
+            Toast.makeText(context, getString(R.string.empty_todo_err), Toast.LENGTH_LONG).show()
+
+        } else {
+            adderViewModel.onCreateTodo(todoInput)
+            val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(view?.windowToken, 0)
+        }
     }
 }
