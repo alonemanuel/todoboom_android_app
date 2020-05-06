@@ -48,7 +48,7 @@ class AdderFragment : Fragment() {
 
         adderViewModel.todos.observe(viewLifecycleOwner, Observer {
             it?.let {
-                adapter.submitList(it)
+                adapter.data = it
             }
         })
 
@@ -58,13 +58,7 @@ class AdderFragment : Fragment() {
     }
 
     fun initAdapter() {
-        adapter = TodoItemAdapter(TodoItemListener { todoId ->
-            Toast.makeText(
-                context,
-                "${todoId}",
-                Toast.LENGTH_LONG
-            ).show()
-        })
+        adapter = TodoItemAdapter()
     }
 
     fun initBinding() {
@@ -116,15 +110,14 @@ class AdderFragment : Fragment() {
     }
 
     private fun addToDo(adderViewModel: AdderViewModel) {
-        Timber.i("On addToDo in fragment")
         val todoInput = binding.todoInput.text.toString()
         Timber.i(todoInput)
         if (todoInput == "") {
-            Timber.i("is null")
             Toast.makeText(context, getString(R.string.empty_todo_err), Toast.LENGTH_LONG).show()
 
         } else {
             adderViewModel.onCreateTodo(todoInput)
+            binding.todoInput.text.clear()
             val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(view?.windowToken, 0)
         }
