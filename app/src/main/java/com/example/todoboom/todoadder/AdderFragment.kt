@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -46,12 +47,18 @@ class AdderFragment : Fragment() {
         binding.adderViewModel = adderViewModel
         binding.setLifecycleOwner(this)
 
-        val adapter = TodoItemAdapter()
+        val adapter = TodoItemAdapter(TodoItemListener { todoId ->
+            Toast.makeText(
+                context,
+                "${todoId}",
+                Toast.LENGTH_LONG
+            ).show()
+        })
         binding.todosList.adapter = adapter
 
         adderViewModel.todos.observe(viewLifecycleOwner, Observer {
             it?.let {
-                adapter.data = it
+                adapter.submitList(it)
             }
         })
 

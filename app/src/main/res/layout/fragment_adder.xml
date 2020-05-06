@@ -13,6 +13,7 @@
             name="adderViewModel"
             type="com.example.todoboom.todoadder.AdderViewModel" />
 
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -150,11 +151,11 @@
         <!-- In the TextView, we can access the nightsString LiveData,
            which keeps it displayed and updated in the TextView
            whenever it changes. -->
-<!--        <TextView-->
-<!--            android:id="@+id/todos_view"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="@{adderViewModel.todosString}" />-->
+        <!--        <TextView-->
+        <!--            android:id="@+id/todos_view"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:text="@{adderViewModel.todosString}" />-->
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
