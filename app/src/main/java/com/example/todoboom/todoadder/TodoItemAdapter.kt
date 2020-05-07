@@ -1,15 +1,13 @@
 package com.example.todoboom.todoadder
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.ListAdapter
-import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.todoboom.R
 import com.example.todoboom.convertLongToDateString
 import com.example.todoboom.database.TodoItem
+import com.example.todoboom.databinding.ListItemTodoBinding
 
 class TodoItemAdapter() :
     ListAdapter<TodoItem, TodoItemAdapter.ViewHolder>(TodoItemDiffCallback()) {
@@ -27,25 +25,23 @@ class TodoItemAdapter() :
     }
 
 
-    class ViewHolder private constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val description: TextView = itemView.findViewById(R.id.todo_desc)
-        val start: TextView = itemView.findViewById(R.id.start_time)
-        val end: TextView = itemView.findViewById(R.id.end_time)
+    class ViewHolder private constructor(val binding: ListItemTodoBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         fun bind(
             item: TodoItem
         ) {
             val res = itemView.context.resources
-            description.text = item.todoDesc
-            start.text = convertLongToDateString(item.startTimeMilli)
-            end.text = convertLongToDateString(item.endTimeMilli)
+            binding.todoDesc.text = item.todoDesc
+            binding.startTime.text = convertLongToDateString(item.startTimeMilli)
+            binding.endTime.text = convertLongToDateString(item.endTimeMilli)
         }
 
         companion object {
             fun from(parent: ViewGroup): ViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
-                val view = layoutInflater.inflate(R.layout.list_item_todo, parent, false)
-                return ViewHolder(view)
+                val binding = ListItemTodoBinding.inflate(layoutInflater, parent, false)
+                return ViewHolder(binding)
             }
         }
     }
