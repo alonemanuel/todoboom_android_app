@@ -49,7 +49,7 @@ class AdderFragment : Fragment() {
                 "Todo ${todoDesc} completed. Boom!!",
                 Toast.LENGTH_LONG
             ).show()
-        })
+        }) //
 
         binding.myName = myName
         binding.adderViewModel = adderViewModel
