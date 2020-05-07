@@ -3,6 +3,7 @@ package com.example.todoboom.todoadder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.ListAdapter
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -11,18 +12,11 @@ import com.example.todoboom.convertLongToDateString
 import com.example.todoboom.database.TodoItem
 
 class TodoItemAdapter() :
-    RecyclerView.Adapter<TodoItemAdapter.ViewHolder>() {
+    ListAdapter<TodoItem, TodoItemAdapter.ViewHolder>(TodoItemDiffCallback()) {
 
-    var data = listOf<TodoItem>()
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
-
-    override fun getItemCount() = data.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = data[position]
+        val item = getItem(position)
         holder.bind(item)
 
     }

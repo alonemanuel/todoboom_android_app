@@ -48,7 +48,7 @@ class AdderFragment : Fragment() {
 
         adderViewModel.todos.observe(viewLifecycleOwner, Observer {
             it?.let {
-                adapter.data = it
+                adapter.submitList(it)
             }
         })
 
