@@ -1,16 +1,17 @@
 package com.example.todoboom.todoadder
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todoboom.R
-import com.example.todoboom.TextItemViewHolder
+import com.example.todoboom.convertLongToDateString
 import com.example.todoboom.database.TodoItem
-import com.example.todoboom.databinding.ListItemTodoBinding
 
-class TodoItemAdapter : RecyclerView.Adapter<TextItemViewHolder>() {
+class TodoItemAdapter() :
+    RecyclerView.Adapter<TodoItemAdapter.ViewHolder>() {
 
     var data = listOf<TodoItem>()
         set(value) {
@@ -20,35 +21,41 @@ class TodoItemAdapter : RecyclerView.Adapter<TextItemViewHolder>() {
 
     override fun getItemCount() = data.size
 
-    override fun onBindViewHolder(holder: TextItemViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = data[position]
-        holder.textView.text = item.todoDesc
-    }
+        holder.bind(item)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TextItemViewHolder {
-        val layoutInflater = LayoutInflater.from(parent.context)
-        val view = layoutInflater.inflate(R.layout.text_item_view, parent, false) as TextView
-        return TextItemViewHolder(view)
     }
 
 
-    class ViewHolder private constructor(val binding: ListItemTodoBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        return ViewHolder.from(parent)
+    }
 
-        fun bind(item: TodoItem, clickListener: TodoItemListener) {
-            binding.todo = item
-            binding.clickListener = clickListener
-            binding.executePendingBindings()
+
+    class ViewHolder private constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val description: TextView = itemView.findViewById(R.id.todo_desc)
+        val start: TextView = itemView.findViewById(R.id.start_time)
+        val end: TextView = itemView.findViewById(R.id.end_time)
+
+        fun bind(
+            item: TodoItem
+        ) {
+            val res = itemView.context.resources
+            description.text = item.todoDesc
+            start.text = convertLongToDateString(item.startTimeMilli)
+            end.text = convertLongToDateString(item.endTimeMilli)
         }
 
         companion object {
             fun from(parent: ViewGroup): ViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
-                val binding = ListItemTodoBinding.inflate(layoutInflater, parent, false)
-                return ViewHolder(binding)
+                val view = layoutInflater.inflate(R.layout.list_item_todo, parent, false)
+                return ViewHolder(view)
             }
         }
     }
+
 
 }
 
