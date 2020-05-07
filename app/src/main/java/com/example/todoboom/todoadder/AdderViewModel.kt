@@ -41,9 +41,9 @@ class AdderViewModel(val database: TodoDatabaseDao, application: Application) :
     private suspend fun getNewestTodoFromDatabase(): TodoItem? {
         return withContext(Dispatchers.IO) {
             var newestTodo = database.getNewest()
-            if (newestTodo?.endTimeMilli != newestTodo?.startTimeMilli) {
-                newestTodo = null
-            }
+//            if (newestTodo?.endTimeMilli != newestTodo?.startTimeMilli) {
+//                newestTodo = null
+//            }
             newestTodo
         }
     }
@@ -57,7 +57,6 @@ class AdderViewModel(val database: TodoDatabaseDao, application: Application) :
             val newTodo = TodoItem()
             newTodo.todoDesc = todoInput
             // todo: add the toast for when it's empty
-//            newTodo.todoDesc =
             insert(newTodo)
             newestTodo.value = getNewestTodoFromDatabase()
         }

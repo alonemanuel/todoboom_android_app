@@ -43,8 +43,18 @@ class AdderFragment : Fragment() {
         adderViewModel =
             ViewModelProvider(this, viewModelFactory).get(AdderViewModel::class.java)
 
-        initAdapter()
-        initBinding()
+        adapter = TodoItemAdapter(TodoItemListener { todoDesc ->
+            Toast.makeText(
+                context,
+                "Todo ${todoDesc} completed. Boom!!",
+                Toast.LENGTH_LONG
+            ).show()
+        })
+
+        binding.myName = myName
+        binding.adderViewModel = adderViewModel
+        binding.setLifecycleOwner(this)
+        binding.todosList.adapter = adapter
 
         adderViewModel.todos.observe(viewLifecycleOwner, Observer {
             it?.let {
@@ -57,18 +67,6 @@ class AdderFragment : Fragment() {
         return binding.root
     }
 
-    fun initAdapter() {
-        adapter = TodoItemAdapter()
-    }
-
-    fun initBinding() {
-
-        binding.myName = myName
-        binding.adderViewModel = adderViewModel
-        binding.setLifecycleOwner(this)
-        binding.todosList.adapter = adapter
-
-    }
 
     private fun setOnClickListeners(adderViewModel: AdderViewModel) {
         binding.apply {
