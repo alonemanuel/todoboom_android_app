@@ -1,12 +1,15 @@
 package com.example.todoboom.todoadder
 
+import android.content.DialogInterface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.todoboom.R
 import com.example.todoboom.convertLongToDateString
 import com.example.todoboom.database.TodoItem
 import com.example.todoboom.databinding.ListItemTodoBinding
@@ -78,9 +81,37 @@ class TodoItemAdapter(val adderViewModel: AdderViewModel, val clickListener: Tod
             Timber.i("long clicked")
             Toast.makeText(v?.context, "long click", Toast.LENGTH_SHORT).show()
             Timber.i("yo")
-            val id: Long? = binding.todo?.todoId
-            Timber.i(id.toString())
-            adderViewModel.onDelete(id)
+            val todoId: Long? = binding.todo?.todoId
+            Timber.i(todoId.toString())
+            val alertDialog: AlertDialog? = v?.context.let {
+                val builder = AlertDialog.Builder(it!!)
+                builder.apply {
+                    setTitle(context.getString(R.string.sure_to_delete))
+
+                    setPositiveButton("yes",
+                        DialogInterface.OnClickListener { dialog, id ->
+                            adderViewModel.onDelete(todoId)
+                            Toast.makeText(v?.context, "todo deleted", Toast.LENGTH_SHORT).show()
+
+                            // User clicked OK button
+                        })
+                    setNegativeButton("no",
+                        DialogInterface.OnClickListener { dialog, id ->
+                            // User cancelled the dialog
+                        })
+
+                }
+                // Set other dialog properties
+
+
+                // Create the AlertDialog
+                builder.create()
+            }
+
+            alertDialog?.show()
+
+//            adderViewModel.onDelete(todoId)
+
 
             return true
         }
