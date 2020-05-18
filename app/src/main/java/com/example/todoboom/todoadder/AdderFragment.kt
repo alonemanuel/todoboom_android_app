@@ -15,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.todoboom.MyName
 import com.example.todoboom.R
 import com.example.todoboom.database.TodoDatabase
+import com.example.todoboom.database.TodoItem
 import com.example.todoboom.databinding.FragmentAdderBinding
 import timber.log.Timber
 
@@ -43,13 +44,7 @@ class AdderFragment : Fragment() {
         adderViewModel =
             ViewModelProvider(this, viewModelFactory).get(AdderViewModel::class.java)
 
-        adapter = TodoItemAdapter(TodoItemListener { todoDesc ->
-            Toast.makeText(
-                context,
-                "Todo ${todoDesc} completed. Boom!!",
-                Toast.LENGTH_LONG
-            ).show()
-        }) //
+        adapter = TodoItemAdapter(TodoItemListener ( {todo -> todoPressed(todo)}, {todo->todoHold(todo)}))
 
         binding.myName = myName
         binding.adderViewModel = adderViewModel
@@ -59,12 +54,37 @@ class AdderFragment : Fragment() {
         adderViewModel.todos.observe(viewLifecycleOwner, Observer {
             it?.let {
                 adapter.submitList(it)
+                Timber.i("The todo list size is: ${it.size}")
+
             }
         })
 
 
+//        logTodoLength()
         setOnClickListeners(adderViewModel)
         return binding.root
+    }
+
+    fun todoPressed(todo: TodoItem) {
+//        var todo: TodoItem? = null
+//        todo=adderViewModel.getTodo(todoId)
+
+        todo.endTimeMilli=System.currentTimeMillis()
+        Toast.makeText(
+            context,
+            "Todo ${todo?.todoDesc} completed. Boom!!",
+            Toast.LENGTH_LONG
+        ).show()
+    }
+
+    fun todoHold(todo: TodoItem) {
+
+    }
+
+    private fun logTodoLength() {
+        var todosLength = adderViewModel.todos.value?.size
+//        var todosLength = adderViewModel.numberOfTodos
+        Timber.i("The todo list size is: $todosLength")
     }
 
 

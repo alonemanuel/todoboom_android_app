@@ -1,7 +1,6 @@
 package com.example.todoboom.todoadder
 
 import android.app.Application
-import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
@@ -21,7 +20,7 @@ class AdderViewModel(val database: TodoDatabaseDao, application: Application) :
     private var uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
     private var newestTodo = MutableLiveData<TodoItem?>()
     val todos = database.getAllTodos()
-
+    var numberOfTodos: Int = 0
 
     //    val todossString = "yo"
     val todosString = Transformations.map(todos) { todos ->
@@ -38,6 +37,22 @@ class AdderViewModel(val database: TodoDatabaseDao, application: Application) :
         }
     }
 
+    fun getTodo(todoId: Long): TodoItem? {
+        var res: TodoItem? = null
+        uiScope.launch {
+            res = getTodoById(todoId)
+        }
+        return res
+    }
+
+
+
+    private suspend fun getTodoById(todoId: Long): TodoItem? {
+        return withContext(Dispatchers.IO) {
+            database.get(todoId)
+        }
+    }
+
     private suspend fun getNewestTodoFromDatabase(): TodoItem? {
         return withContext(Dispatchers.IO) {
             var newestTodo = database.getNewest()
@@ -47,6 +62,7 @@ class AdderViewModel(val database: TodoDatabaseDao, application: Application) :
             newestTodo
         }
     }
+
 
     fun onCreateTodo(todoInput: String) {
         // Todo: use binding

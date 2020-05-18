@@ -25,4 +25,8 @@ interface TodoDatabaseDao {
 
     @Query("SELECT * from todo_item_table ORDER BY todoId DESC")
     fun getAllTodos(): LiveData<List<TodoItem>>
+
+    @Query("SELECT COUNT(*) FROM todo_item_table")
+    fun getNumOfTodos(): LiveData<Int>
+
 }
