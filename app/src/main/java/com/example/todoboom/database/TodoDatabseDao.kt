@@ -20,6 +20,9 @@ interface TodoDatabaseDao {
     @Query("DELETE from todo_item_table")
     fun clear()
 
+    @Query("DELETE from todo_item_table WHERE todoId=:key")
+    fun delete(key: Long?)
+
     @Query("SELECT * from todo_item_table ORDER BY todoId DESC LIMIT 1")
     fun getNewest(): TodoItem?
 

@@ -46,7 +46,6 @@ class AdderViewModel(val database: TodoDatabaseDao, application: Application) :
     }
 
 
-
     private suspend fun getTodoById(todoId: Long): TodoItem? {
         return withContext(Dispatchers.IO) {
             database.get(todoId)
@@ -97,12 +96,22 @@ class AdderViewModel(val database: TodoDatabaseDao, application: Application) :
             database.add(newTodo)
         }
     }
+    fun onDelete(todoId: Long?) {
+        uiScope.launch { delete(todoId) }
+    }
+
+    private suspend fun delete(todoId: Long?) {
+        withContext(Dispatchers.IO) {
+            database.delete(todoId)
+        }
+    }
 
 
     override fun onCleared() {
         super.onCleared()
         viewModelJob.cancel()
     }
+
 
     fun onTodoItemClicked(id: Long) {
 

@@ -44,7 +44,7 @@ class AdderFragment : Fragment() {
         adderViewModel =
             ViewModelProvider(this, viewModelFactory).get(AdderViewModel::class.java)
 
-        adapter = TodoItemAdapter(TodoItemListener ( {todo -> todoPressed(todo)}, {todo->todoHold(todo)}))
+        adapter = TodoItemAdapter(adderViewModel,TodoItemListener ( {todo -> todoPressed(todo)}, {todo->todoHold(todo)}))
 
         binding.myName = myName
         binding.adderViewModel = adderViewModel

@@ -12,34 +12,41 @@ import com.example.todoboom.database.TodoItem
 import com.example.todoboom.databinding.ListItemTodoBinding
 import timber.log.Timber
 
-class TodoItemAdapter(val clickListener: TodoItemListener) :
+class TodoItemAdapter(val adderViewModel: AdderViewModel, val clickListener: TodoItemListener) :
     ListAdapter<TodoItem, TodoItemAdapter.ViewHolder>(TodoItemDiffCallback()) {
+
+    val viewModel: AdderViewModel = adderViewModel
 
 //    var todoClickListener: TodoClickListener = TODO()
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(getItem(position)!!, clickListener)
-
 //        holder.itemView.setOnLongClickListener(View.OnLongClickListener {
 //            fun onLongClick(v: View): Boolean {
 //                return false
 //            }
 //        })
 
+
     }
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder.from(parent)
+        return ViewHolder.from(parent, viewModel)
+
     }
 
 
-    class ViewHolder private constructor(val binding: ListItemTodoBinding) :
+    class ViewHolder private constructor(
+        val binding: ListItemTodoBinding,
+        val adderViewModel: AdderViewModel
+    ) :
         RecyclerView.ViewHolder(binding.root), View.OnLongClickListener {
 
         init {
             itemView.setOnLongClickListener(this)
         }
+
 
         fun bind(
             item: TodoItem,
@@ -56,16 +63,25 @@ class TodoItemAdapter(val clickListener: TodoItemListener) :
         }
 
         companion object {
-            fun from(parent: ViewGroup): ViewHolder {
+            fun from(parent: ViewGroup, adderViewModel: AdderViewModel): ViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val binding = ListItemTodoBinding.inflate(layoutInflater, parent, false)
-                return ViewHolder(binding)
+                val viewModel = adderViewModel
+                return ViewHolder(binding, viewModel)
             }
         }
 
+
         override fun onLongClick(v: View?): Boolean {
+
+
             Timber.i("long clicked")
             Toast.makeText(v?.context, "long click", Toast.LENGTH_SHORT).show()
+            Timber.i("yo")
+            val id: Long? = binding.todo?.todoId
+            Timber.i(id.toString())
+            adderViewModel.onDelete(id)
+
             return true
         }
     }
