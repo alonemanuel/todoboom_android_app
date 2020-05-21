@@ -44,9 +44,10 @@ class TodoItemAdapter(val adderViewModel: AdderViewModel, val clickListener: Tod
         val binding: ListItemTodoBinding,
         val adderViewModel: AdderViewModel
     ) :
-        RecyclerView.ViewHolder(binding.root), View.OnLongClickListener {
+        RecyclerView.ViewHolder(binding.root), View.OnLongClickListener, View.OnClickListener {
 
         init {
+            itemView.setOnClickListener(this)
             itemView.setOnLongClickListener(this)
         }
 
@@ -59,8 +60,11 @@ class TodoItemAdapter(val adderViewModel: AdderViewModel, val clickListener: Tod
             val res = itemView.context.resources
             binding.todo = item
             binding.todoDesc.text = item.todoDesc
-            binding.startTime.text = convertLongToDateString(item.startTimeMilli)
-            binding.endTime.text = convertLongToDateString(item.endTimeMilli)
+            binding.startTime.text = "Added on ${convertLongToDateString(item.startTimeMilli)}"
+            binding.endTime.text = "Completed on ${convertLongToDateString(item.endTimeMilli)}"
+            if (item.endTimeMilli != item.startTimeMilli) {
+                binding.endTime.visibility=View.VISIBLE
+            }
             binding.clickListener = clickListener
             binding.executePendingBindings()
         }
@@ -78,9 +82,6 @@ class TodoItemAdapter(val adderViewModel: AdderViewModel, val clickListener: Tod
         override fun onLongClick(v: View?): Boolean {
 
 
-            Timber.i("long clicked")
-            Toast.makeText(v?.context, "long click", Toast.LENGTH_SHORT).show()
-            Timber.i("yo")
             val todoId: Long? = binding.todo?.todoId
             Timber.i(todoId.toString())
             val alertDialog: AlertDialog? = v?.context.let {
@@ -91,7 +92,11 @@ class TodoItemAdapter(val adderViewModel: AdderViewModel, val clickListener: Tod
                     setPositiveButton("yes",
                         DialogInterface.OnClickListener { dialog, id ->
                             adderViewModel.onDelete(todoId)
-                            Toast.makeText(v?.context, "todo deleted", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                v?.context,
+                                "Todo ${binding.todo?.todoDesc} deleted",
+                                Toast.LENGTH_SHORT
+                            ).show()
 
                             // User clicked OK button
                         })
@@ -110,10 +115,24 @@ class TodoItemAdapter(val adderViewModel: AdderViewModel, val clickListener: Tod
 
             alertDialog?.show()
 
-//            adderViewModel.onDelete(todoId)
 
 
             return true
+        }
+
+        override fun onClick(v: View?) {
+            if (binding.todo?.endTimeMilli != binding.todo?.startTimeMilli) {
+                return
+            }
+            binding.todo?.endTimeMilli = System.currentTimeMillis()
+            binding.endTime.visibility = View.VISIBLE
+            adderViewModel.onCompleted(binding.todo)
+            Toast.makeText(
+                v?.context,
+                "Todo ${binding.todo?.todoDesc} completed! TODOBOOM!",
+                Toast.LENGTH_SHORT
+            ).show()
+
         }
     }
 

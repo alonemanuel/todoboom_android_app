@@ -85,6 +85,19 @@ class AdderViewModel(val database: TodoDatabaseDao, application: Application) :
         }
     }
 
+    fun onCompleted(updatedTodo: TodoItem?) {
+        uiScope.launch {
+            complete(updatedTodo)
+        }
+    }
+
+    private suspend fun complete(updatedTodo: TodoItem?) {
+        withContext(Dispatchers.IO)
+        {
+            database.update(updatedTodo)
+        }
+    }
+
     private suspend fun clear() {
         withContext(Dispatchers.IO) {
             database.clear()
@@ -96,6 +109,7 @@ class AdderViewModel(val database: TodoDatabaseDao, application: Application) :
             database.add(newTodo)
         }
     }
+
     fun onDelete(todoId: Long?) {
         uiScope.launch { delete(todoId) }
     }

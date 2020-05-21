@@ -12,7 +12,7 @@ interface TodoDatabaseDao {
     fun add(todo: TodoItem)
 
     @Update
-    fun update(todo: TodoItem)
+    fun update(todo: TodoItem?)
 
     @Query("SELECT * from todo_item_table WHERE todoId= :key")
     fun get(key: Long): TodoItem?
