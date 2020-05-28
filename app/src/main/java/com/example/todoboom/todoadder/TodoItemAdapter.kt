@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -63,7 +64,7 @@ class TodoItemAdapter(val adderViewModel: AdderViewModel, val clickListener: Tod
             binding.startTime.text = "Added on ${convertLongToDateString(item.startTimeMilli)}"
             binding.endTime.text = "Completed on ${convertLongToDateString(item.endTimeMilli)}"
             if (item.endTimeMilli != item.startTimeMilli) {
-                binding.endTime.visibility=View.VISIBLE
+                binding.endTime.visibility = View.VISIBLE
             }
             binding.clickListener = clickListener
             binding.executePendingBindings()
@@ -132,6 +133,9 @@ class TodoItemAdapter(val adderViewModel: AdderViewModel, val clickListener: Tod
                 "Todo ${binding.todo?.todoDesc} completed! TODOBOOM!",
                 Toast.LENGTH_SHORT
             ).show()
+
+            v?.findNavController()
+                ?.navigate(AdderFragmentDirections.actionAdderFragmentToInfoFragment(binding.todo?.todoDesc))
 
         }
     }

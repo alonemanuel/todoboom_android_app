@@ -55,5 +55,7 @@
     <string name="empty_todo_err">You cannot enter an empty todo!</string>
     <string name="cancel">cancel</string>
     <string name="sure_to_delete">Are you sure you want to delete this todo?</string>
+    <string name="todo_completed">Todo Completed</string>
+    <string name="edit_todo">Edit Todo</string>
 
 </resources>

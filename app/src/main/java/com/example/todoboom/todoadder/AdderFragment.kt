@@ -11,7 +11,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import com.example.todoboom.MyName
 import com.example.todoboom.R
 import com.example.todoboom.database.TodoDatabase
@@ -44,7 +43,10 @@ class AdderFragment : Fragment() {
         adderViewModel =
             ViewModelProvider(this, viewModelFactory).get(AdderViewModel::class.java)
 
-        adapter = TodoItemAdapter(adderViewModel,TodoItemListener ( {todo -> todoPressed(todo)}, {todo->todoHold(todo)}))
+        adapter = TodoItemAdapter(
+            adderViewModel,
+            TodoItemListener({ todo -> todoPressed(todo) }, { todo -> todoHold(todo) })
+        )
 
         binding.myName = myName
         binding.adderViewModel = adderViewModel
@@ -69,7 +71,7 @@ class AdderFragment : Fragment() {
 //        var todo: TodoItem? = null
 //        todo=adderViewModel.getTodo(todoId)
 
-        todo.endTimeMilli=System.currentTimeMillis()
+        todo.endTimeMilli = System.currentTimeMillis()
         Toast.makeText(
             context,
             "Todo ${todo?.todoDesc} completed. Boom!!",
@@ -93,9 +95,13 @@ class AdderFragment : Fragment() {
             createButton.setOnClickListener { addToDo(adderViewModel) }
             doneButton.setOnClickListener { addNickname(it) }
             nicknameView.setOnClickListener { updateNickname() }
-            seeStatsButton.setOnClickListener { findNavController().navigate(R.id.action_adderFragment_to_statsFragment) }
+            seeStatsButton.setOnClickListener { navigateToInfoFragment() }
         }
 
+    }
+
+    private fun navigateToInfoFragment() {
+//        binding.apply { findNavController().navigate(AdderFragmentDirections.actionAdderFragmentToInfoFragment()) }
     }
 
     private fun updateNickname() {

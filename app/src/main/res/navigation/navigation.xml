@@ -1,19 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
     app:startDestination="@id/adderFragment">
     <fragment
         android:id="@+id/adderFragment"
         android:name="com.example.todoboom.todoadder.AdderFragment"
-        android:label="AdderFragment" >
+        android:label="AdderFragment">
         <action
             android:id="@+id/action_adderFragment_to_statsFragment"
             app:destination="@id/statsFragment" />
+        <action
+            android:id="@+id/action_adderFragment_to_infoFragment"
+            app:destination="@+id/infoFragment" />
     </fragment>
     <fragment
         android:id="@+id/statsFragment"
         android:name="com.example.todoboom.screens.StatsFragment"
         android:label="StatsFragment" />
+    <fragment
+        android:id="@+id/infoFragment"
+        android:name="com.example.todoboom.todoiteminfo.InfoFragment"
+        android:label="InfoFragment">
+        <argument
+            android:name="todoDesc"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
+
 </navigation>
